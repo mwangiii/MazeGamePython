@@ -34,6 +34,8 @@ class TestMazeFunctions(unittest.TestCase):
         result = neighbors(7, 2, 8, 4)
         self.assertEqual(result, [15, 22, 31])
 
+
+    # this fuction is not working
     def test_laby(self):
         """
         Test case for laby procedure
