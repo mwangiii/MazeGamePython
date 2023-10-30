@@ -4,7 +4,7 @@
 Here we try to create a maze using python
 
 ## BRAINSTORMING
-widht = len of horizontal cells(nx)
+width = len of horizontal cells(nx)
 height =   len of vertical cells (ny)
 North, East, South, and West walls (to simplify N, E, S,W) of the cell
 n is the number of cells
@@ -22,4 +22,4 @@ use uses random numbers to create the maze but ensures that there is always exac
 there is always exactly one path between any cell and any other cell (formally
 called an underlying tree)
 horizontal = not removed
-verti = removed
+vertical = removed
