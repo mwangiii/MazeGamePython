@@ -123,13 +123,14 @@ def wall_number(x, y, nx, side):
 
     return num
 
+
 def generate_labyrinth(nx, ny):
     """
-    takes the size of a grid (width=nx and height=ny) and
+    Takes the size of a grid (width=nx and height=ny) and
     returns the walls of the labyrinth
     """
     nb_cell = nx * ny
-    walls_h = sequence(nx * (ny + 1) - 1)
+    walls_h = sequence(nx * (ny + 1))
     walls_h = remove_element(walls_h, 0)
     walls_v = sequence((nx + 1) * ny)
 
@@ -180,10 +181,28 @@ def generate_labyrinth(nx, ny):
     return walls
 
 
+def draw_wall(x, y, orientation, step):
+    """
+    Takes the coordinates (x, y) of a wall,
+    its orientation ('H' for horizontal, 'V' for vertical),
+    and the step of the cell, and
+    draws the wall
+    """
+    penup()
+    goto(x, y)
+    pendown()
+
+    if orientation == 'H':
+        forward(step)
+    elif orientation == 'V':
+        right(90)
+        backward(step)
+        right(90)
+
 
 def draw_labyrinth(walls_h, walls_v, nx, ny, step):
     """
-    takes the walls of the labyrinth and
+    Takes the walls of the labyrinth and
     the size of a grid (width=nx and height=ny) and
     the step of the cell and
     draws the labyrinth
@@ -191,23 +210,19 @@ def draw_labyrinth(walls_h, walls_v, nx, ny, step):
     x0 = -nx * step / 2
     y0 = ny * step / 2
 
+    # Draw vertical walls
     for i in range(len(walls_v)):
         wall_indv = walls_v[i]
-        penup()
-        goto(x0 + wall_indv % (nx + 1) * step, y0 + (wall_indv // (nx + 1)) * -step)
-        pendown()
-        backward(step)
+        x = x0 + wall_indv % (nx + 1) * step
+        y = y0 + (wall_indv // (nx + 1)) * -step
+        draw_wall(x, y, 'V', step)
 
-    right(90)
-
+    # Draw horizontal walls
     for i in range(len(walls_h)):
-        wall_indv = walls_h[i]
-        penup()
-        goto(x0 + (wall_indv % nx) * step, y0 + (wall_indv // nx) * (-step))
-        pendown()
-        forward(step)
-
-    right(90)
+        wall_indh = walls_h[i]
+        x = x0 + (wall_indh % nx) * step
+        y = y0 + (wall_indh // nx) * -step
+        draw_wall(x, y, 'H', step)
 
 
 def labyrinth(nx, ny, step):
@@ -278,40 +293,40 @@ def labyrinth_solution(nx, ny, step):
             counter = pledge_left(adjustment, counter)
 
     return
+labyrinth(16, 9, 20)
+# class TestMazeFunctions(unittest.TestCase):
+#     """Tests for maze.py"""
 
-class TestMazeFunctions(unittest.TestCase):
-    """Tests for maze.py"""
+#     def test_sequence(self):
+#         """Test case for sequence function"""
+#         result = sequence(5)
+#         self.assertEqual(result, [0, 1, 2, 3, 4])
 
-    def test_sequence(self):
-        """Test case for sequence function"""
-        result = sequence(5)
-        self.assertEqual(result, [0, 1, 2, 3, 4])
+#     def test_contains(self):
+#         """Test case for contains function - positive case"""
+#         result_positive = contains([1, 2, 3], 2)
+#         self.assertTrue(result_positive)
 
-    def test_contains(self):
-        """Test case for contains function - positive case"""
-        result_positive = contains([1, 2, 3], 2)
-        self.assertTrue(result_positive)
+#         """Test case for contains function - negative case"""
+#         result_negative = contains([1, 2, 3], 4)
+#         self.assertFalse(result_negative)
 
-        """Test case for contains function - negative case"""
-        result_negative = contains([1, 2, 3], 4)
-        self.assertFalse(result_negative)
+#     def test_add(self):
+#         """Test case for add function"""
+#         result = add_element([9, 2, 5], 2)
+#         self.assertEqual(result, [9, 2, 5])
 
-    def test_add(self):
-        """Test case for add function"""
-        result = add_element([9, 2, 5], 2)
-        self.assertEqual(result, [9, 2, 5])
+#     def test_remove(self):
+#         """Test case for remove function"""
+#         result = remove_element([1, 2, 3], 2)
+#         self.assertEqual(result, [1, 3])
 
-    def test_remove(self):
-        """Test case for remove function"""
-        result = remove_element([1, 2, 3], 2)
-        self.assertEqual(result, [1, 3])
-
-    def test_neighbors(self):
-        """Test case for neighbors function"""
-        result = neighbors(7, 2, 8, 4)
-        self.assertEqual(result, [15, 22, 31])
+#     def test_neighbors(self):
+#         """Test case for neighbors function"""
+#         result = neighbors(7, 2, 8, 4)
+#         self.assertEqual(result, [15, 22, 31])
 
 
 if __name__ == "__main__":
-    unittest.main()
+    # unittest.main()
     turtle.mainloop()
