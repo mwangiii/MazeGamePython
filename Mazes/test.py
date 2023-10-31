@@ -1,13 +1,8 @@
-#!/usr/bin/env python3
 import random
-
 
 def laby(nx, ny, dimension):
     # Initialization
-    maze = []
-    for _ in range(ny):
-        maze.append([0] * nx)
-
+    maze = [[' ' for _ in range(nx)] for _ in range(ny)]
     stack = []
     cellar = set()
     forehead = set()
@@ -30,11 +25,7 @@ def laby(nx, ny, dimension):
 
         if current_cell:
             x, y = current_cell
-            unvisited_neighbors = []
-            for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]:
-                new_x, new_y = x + dx, y + dy
-                if 0 <= new_x < nx and 0 <= new_y < ny and (new_x, new_y) not in cellar:
-                    unvisited_neighbors.append((new_x, new_y))
+            unvisited_neighbors = [(nx, ny) for nx, ny in [(x + dx, y + dy) for dx, dy in [(0, 1), (1, 0), (0, -1), (-1, 0)]] if 0 <= nx < nx and 0 <= ny < ny and (nx, ny) not in cellar]
 
             if unvisited_neighbors:
                 next_cell = random.choice(unvisited_neighbors)
@@ -48,15 +39,9 @@ def laby(nx, ny, dimension):
         else:
             break
 
-  
-    # Draw the Maze
-        for x in range(ny):
-            for y in range(nx):
-                for i in range(dimension):
-                    for j in range(dimension):
-                        color = "#000" if maze[x][y] == 1 else "#FFF"
-                        set_pixel(min(x * dimension + i, 15), min(y * dimension + j, 11), color)
+    # Print the Maze
+    for row in maze:
+        print(''.join(['#' if cell == 1 else ' ' for cell in row]))
 
-
-    # Export and Print the Maze
-    print(export_screen())
+# Example usage
+print(laby(16, 9, 20))
