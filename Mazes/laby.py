@@ -39,7 +39,7 @@ def laby(nx, ny, dimension):
             if unvisited_neighbors:
                 next_cell = random.choice(unvisited_neighbors)
                 stack.append(next_cell)
-                maze[x][y] = 1  # Open a path between the cells
+                maze[x][y] = 1
                 cellar.add(next_cell)
                 add_to_forehead(*next_cell)
             else:
@@ -48,7 +48,7 @@ def laby(nx, ny, dimension):
         else:
             break
 
-  
+
     # Draw the Maze
         for x in range(ny):
             for y in range(nx):
